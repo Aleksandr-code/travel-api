@@ -25,7 +25,7 @@ class Tour extends Model
     {
         return Attribute::make(
           get: fn(float $value) => $value/100,
-          set: fn(int $value) => $value * 100
+          set: fn(float $value) => $value * 100
         );
     }
 }

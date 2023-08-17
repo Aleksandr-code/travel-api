@@ -3,23 +3,26 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TravelResource;
+use App\Http\Resources\TourResource;
+use App\Models\Tour;
 use App\Models\Travel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class TravelController extends Controller
+class TourController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index():ResourceCollection
+    public function index(Travel $travel):ResourceCollection
     {
-        $travels = Travel::where('is_public', true)->paginate(15);
+        $tours = $travel->tours()
+            ->orderBy('starting_date')
+            ->paginate(15);
 
-        return TravelResource::collection($travels);
+        return TourResource::collection($tours);
     }
 
     /**
