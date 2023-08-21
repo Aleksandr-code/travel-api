@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TravelRequest;
 use App\Http\Resources\TravelResource;
 use App\Models\Travel;
-use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceResponse;
 
 class TravelController extends Controller
 {
@@ -14,6 +14,14 @@ class TravelController extends Controller
         $data = $request->validated();
 
         $travel = Travel::create($data);
+
+        return new TravelResource($travel);
+    }
+
+    public function update(Travel $travel, TravelRequest $request){
+        $data = $request->validated();
+
+        $travel->update($data);
 
         return new TravelResource($travel);
     }
