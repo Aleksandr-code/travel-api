@@ -7,12 +7,12 @@ use App\Models\Travel;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AdminTravelTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * A basic feature test example.
      *
@@ -43,7 +43,7 @@ class AdminTravelTest extends TestCase
         $user->roles()->attach(Role::where('name', 'admin')->value('id'));
 
         $response = $this->actingAs($user)->postJson('/api/v1/admin/travels', [
-            'name' => 'failed data'
+            'name' => 'failed data',
         ]);
         $response->assertStatus(422);
 
@@ -51,7 +51,7 @@ class AdminTravelTest extends TestCase
             'name' => 'Travel name',
             'is_public' => 1,
             'description' => 'Some description',
-            'number_of_days' => 4
+            'number_of_days' => 4,
 
         ]);
         $response->assertStatus(201);
@@ -65,7 +65,7 @@ class AdminTravelTest extends TestCase
         $travel = Travel::factory()->create();
 
         $response = $this->actingAs($user)->putJson('/api/v1/admin/travels/'.$travel->id, [
-            'name' => 'failed update travel'
+            'name' => 'failed update travel',
         ]);
         $response->assertStatus(422);
 
@@ -73,7 +73,7 @@ class AdminTravelTest extends TestCase
             'name' => 'Travel name updated',
             'is_public' => 1,
             'description' => 'Some description',
-            'number_of_days' => 4
+            'number_of_days' => 4,
         ]);
         $response->assertStatus(200);
 

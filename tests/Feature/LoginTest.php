@@ -4,12 +4,12 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * A basic feature test example.
      *
@@ -21,7 +21,7 @@ class LoginTest extends TestCase
 
         $response = $this->postJson('/api/v1/login', [
             'email' => $user->email,
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         $response->assertStatus(200);
@@ -32,7 +32,7 @@ class LoginTest extends TestCase
     {
         $response = $this->postJson('/api/v1/login', [
             'email' => 'nonuser@mail.ru',
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         $response->assertStatus(422);

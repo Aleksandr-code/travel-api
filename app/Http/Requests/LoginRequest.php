@@ -21,11 +21,11 @@ class LoginRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'email' => ['required', 'email', 'string'],
-            'password' => ['required', 'string']
+            'password' => ['required', 'string'],
         ];
     }
 }

@@ -18,14 +18,14 @@ class Tour extends Model
         'name',
         'starting_date',
         'ending_date',
-        'price'
+        'price',
     ];
 
-    public function price():Attribute
+    public function price(): Attribute
     {
         return Attribute::make(
-          get: fn(float $value) => $value/100,
-          set: fn(float $value) => $value * 100
+            get: fn (float $value) => $value / 100,
+            set: fn (float $value) => $value * 100
         );
     }
 }

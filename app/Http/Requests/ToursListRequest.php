@@ -30,11 +30,11 @@ class ToursListRequest extends FormRequest
             'dateFrom' => 'date',
             'dateTo' => 'date',
             'sortBy' => Rule::in(['price']),
-            'sortOrder' => Rule::in(['asc', 'desc'])
+            'sortOrder' => Rule::in(['asc', 'desc']),
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'sortBy' => "The 'sortBy' parameter accepts only 'price' value",

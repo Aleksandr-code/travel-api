@@ -12,7 +12,7 @@ class TravelResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->id,
@@ -20,7 +20,7 @@ class TravelResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'number_of_days' => $this->number_of_days,
-            'number_of_nights' => $this->number_of_nights
+            'number_of_nights' => $this->number_of_nights,
         ];
     }
 }

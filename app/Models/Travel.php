@@ -20,7 +20,7 @@ class Travel extends Model
         'slug',
         'name',
         'description',
-        'number_of_days'
+        'number_of_days',
     ];
 
     public function tours(): HasMany
@@ -30,22 +30,20 @@ class Travel extends Model
 
     /**
      * Return the sluggable configuration array for this model.
-     *
-     * @return array
      */
     public function sluggable(): array
     {
         return [
             'slug' => [
-                'source' => 'name'
-            ]
+                'source' => 'name',
+            ],
         ];
     }
 
     protected function numberOfNights(): Attribute
     {
         return Attribute::make(
-            get: fn(mixed $value, array $attributes) => $attributes['number_of_days'] - 1
+            get: fn (mixed $value, array $attributes) => $attributes['number_of_days'] - 1
         );
     }
 }

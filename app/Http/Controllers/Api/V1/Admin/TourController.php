@@ -6,11 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TourRequest;
 use App\Http\Resources\TourResource;
 use App\Models\Travel;
-use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class TourController extends Controller
 {
-    public function store(Travel $travel, TourRequest $request){
+    public function store(Travel $travel, TourRequest $request): JsonResource
+    {
         $data = $request->validated();
         $tour = $travel->tours()->create($data);
 

@@ -7,12 +7,12 @@ use App\Models\Travel;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AdminTourTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * A basic feature test example.
      *
@@ -49,7 +49,7 @@ class AdminTourTest extends TestCase
         $travel = Travel::factory()->create();
 
         $response = $this->actingAs($user)->postJson('/api/v1/admin/travels/'.$travel->id.'/tours', [
-            'name' => 'failed tour'
+            'name' => 'failed tour',
         ]);
         $response->assertStatus(422);
 
@@ -63,6 +63,5 @@ class AdminTourTest extends TestCase
 
         $response = $this->get('/api/v1/travels/'.$travel->slug.'/tours');
         $response->assertJsonFragment(['name' => 'Tour name']);
-
     }
 }

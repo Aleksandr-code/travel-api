@@ -5,34 +5,32 @@ namespace Tests\Feature;
 use App\Models\Tour;
 use App\Models\Travel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TourListTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
-    public function test_tours_list_by_travel_slug_returns_correct_tours():void
+    public function test_tours_list_by_travel_slug_returns_correct_tours(): void
     {
         $travel = Travel::factory()->create();
-        $tour = Tour::factory()->create(['travel_id'=>$travel->id]);
+        $tour = Tour::factory()->create(['travel_id' => $travel->id]);
         $response = $this->get('/api/v1/travels/'.$travel->slug.'/tours');
 
         $response->assertStatus(200);
         $response->assertJsonCount(1, 'data');
-        $response->assertJsonFragment(['id'=> $tour->id]);
+        $response->assertJsonFragment(['id' => $tour->id]);
     }
 
-    public function test_tour_price_is_shown_correctly():void
+    public function test_tour_price_is_shown_correctly(): void
     {
         $travel = Travel::factory()->create();
         Tour::factory()
             ->create([
-                'travel_id'=>$travel->id,
+                'travel_id' => $travel->id,
                 'price' => 123.45,
             ]);
 
@@ -40,13 +38,13 @@ class TourListTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJsonCount(1, 'data');
-        $response->assertJsonFragment(['price'=> '123.45']);
+        $response->assertJsonFragment(['price' => '123.45']);
     }
 
-    public function test_tour_list_returns_pagination():void
+    public function test_tour_list_returns_pagination(): void
     {
         $travel = Travel::factory()->create();
-        Tour::factory(16)->create(['travel_id'=>$travel->id]);
+        Tour::factory(16)->create(['travel_id' => $travel->id]);
 
         $response = $this->get('/api/v1/travels/'.$travel->slug.'/tours');
 
@@ -168,37 +166,37 @@ class TourListTest extends TestCase
 
         $response = $this->get($endpoint.'?dateFrom='.now());
         $response->assertJsonCount(2, 'data');
-        $response->assertJsonFragment(['id'=> $earlierTour->id]);
-        $response->assertJsonFragment(['id'=> $laterTour->id]);
+        $response->assertJsonFragment(['id' => $earlierTour->id]);
+        $response->assertJsonFragment(['id' => $laterTour->id]);
 
         $response = $this->get($endpoint.'?dateFrom='.now()->addDay());
         $response->assertJsonCount(1, 'data');
-        $response->assertJsonMissing(['id'=> $earlierTour->id]);
-        $response->assertJsonFragment(['id'=> $laterTour->id]);
+        $response->assertJsonMissing(['id' => $earlierTour->id]);
+        $response->assertJsonFragment(['id' => $laterTour->id]);
 
         $response = $this->get($endpoint.'?dateFrom='.now()->addDays(5));
         $response->assertJsonCount(0, 'data');
 
         $response = $this->get($endpoint.'?dateTo='.now()->addDays(5));
         $response->assertJsonCount(2, 'data');
-        $response->assertJsonFragment(['id'=> $earlierTour->id]);
-        $response->assertJsonFragment(['id'=> $laterTour->id]);
+        $response->assertJsonFragment(['id' => $earlierTour->id]);
+        $response->assertJsonFragment(['id' => $laterTour->id]);
 
         $response = $this->get($endpoint.'?dateTo='.now()->addDay());
         $response->assertJsonCount(1, 'data');
-        $response->assertJsonFragment(['id'=> $earlierTour->id]);
-        $response->assertJsonMissing(['id'=> $laterTour->id]);
+        $response->assertJsonFragment(['id' => $earlierTour->id]);
+        $response->assertJsonMissing(['id' => $laterTour->id]);
 
         $response = $this->get($endpoint.'?dateTo='.now()->subDay());
         $response->assertJsonCount(0, 'data');
 
         $response = $this->get($endpoint.'?dateFrom='.now()->addDay().'&dateTo='.now()->addDays(5));
         $response->assertJsonCount(1, 'data');
-        $response->assertJsonMissing(['id'=> $earlierTour->id]);
-        $response->assertJsonFragment(['id'=> $laterTour->id]);
+        $response->assertJsonMissing(['id' => $earlierTour->id]);
+        $response->assertJsonFragment(['id' => $laterTour->id]);
     }
 
-    public function test_tour_list_returns_validation_errors():void
+    public function test_tour_list_returns_validation_errors(): void
     {
         $travel = Travel::factory()->create();
 
@@ -208,5 +206,4 @@ class TourListTest extends TestCase
         $response = $this->getJson('/api/v1/travels/'.$travel->slug.'/tours?priceFrom=abcde');
         $response->assertStatus(422);
     }
-
 }
